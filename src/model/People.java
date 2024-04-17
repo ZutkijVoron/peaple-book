@@ -24,48 +24,24 @@ public class People {
 		return firstName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
 	public String getLastName() {
 		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
 	}
 
 	public String getSecondName() {
 		return secondName;
 	}
 
-	public void setSecondName(String secondName) {
-		this.secondName = secondName;
-	}
-
 	public Data getBirthDate() {
 		return birthDate;
-	}
-
-	public void setBirthDate(Data birthDate) {
-		this.birthDate = birthDate;
 	}
 
 	public int getPhone() {
 		return phone;
 	}
 
-	public void setPhone(int phone) {
-		this.phone = phone;
-	}
-
 	public char getGender() {
 		return gender;
-	}
-
-	public void setGender(char gender) {
-		this.gender = gender;
 	}
 
 	@Override

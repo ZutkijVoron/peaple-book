@@ -16,16 +16,16 @@ public class PeopleBookController {
 						peopleBookView.add();
 						break;
 					case 2:
-						peopleBookView.list();
+						peopleBookView.list(peopleBookService.list());
 						break;
 					case 0:
 						peopleBookView.end();
 						return;
 					default:
-						System.out.println("Вы ввели число не соответствующее меню");
+						System.err.println("Вы ввели число не соответствующее меню");
 				}
 			} catch (Exception e) {
-				System.out.println(e);
+				System.err.println(e.getMessage());
 			}
 		}
 	}
