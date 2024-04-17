@@ -2,9 +2,8 @@ package src.service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.Scanner;
-
-import javax.print.DocFlavor.STRING;
 
 import src.model.People;
 
@@ -51,10 +50,23 @@ public class PeopleBookService {
 			folder.mkdir();
 			return;
 		}
-		try {
-			File[] files = folder.listFiles();
+		File[] files = folder.listFiles();
+		People p = parserData(people);
+		for (File file : files) {
+			if (file.getName() == p.getLastName()) {
+				try (FileWriter fw = new FileWriter(file)) {
+					fw.append(p.toString());
+				} catch (Exception e) {
+					throw new Exception("Почему-то не удалось записать файл.....");
+				}
+				return;
+			}
+		}
+		File f = new File(folder.getPath() + p.getLastName());
+		try (FileWriter fw = new FileWriter(f)) {
+			fw.append(p.toString());
 		} catch (Exception e) {
-			// TODO: handle exception
+			throw new Exception(e.getMessage());
 		}
 	}
 }

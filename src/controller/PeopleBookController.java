@@ -13,7 +13,7 @@ public class PeopleBookController {
 			try {
 				switch (peopleBookView.menu()) {
 					case 1:
-						peopleBookView.add();
+						peopleBookService.add(peopleBookView.add());
 						break;
 					case 2:
 						peopleBookView.list(peopleBookService.list());
