@@ -3,13 +3,73 @@ package src.service;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+
+import java.text.SimpleDateFormat;
+
 import java.util.Scanner;
+import java.util.Date;
 
 import src.model.People;
 
 public class PeopleBookService {
-	public People parserData(String dataString) {
-		return null;
+	public People parserData(String dataString) throws Exception {
+		String[] arr = dataString.split(" ");
+		if (arr.length != 6) {
+			if (arr.length > 6) {
+				throw new Exception("Вы ввели слишком много информации");
+			}
+			throw new Exception("Вы ввели слишком мало информации");
+		}
+		String surname = "";
+		String firstName = "";
+		String patronymic = "";
+		Date birthDate = null;
+		SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+		int phone = 0;
+		char gender = 'c';
+		for (String string : arr) {
+			try {
+				if (phone == 0 && !string.matches("\\d{2}\\.\\d{2}\\.\\d{4}")) {
+					phone = Integer.parseInt(string);
+					continue;
+				}
+			} catch (Exception e) {
+			}
+			try {
+				if (gender == 'c' && string.length() == 1) {
+					if (string.charAt(0) == 'm') {
+						gender = 'm';
+						continue;
+					} else if (string.charAt(0) == 'f') {
+						gender = 'f';
+						continue;
+					}
+				}
+			} catch (Exception e) {
+			}
+			if (birthDate == null && string.matches("\\d{2}\\.\\d{2}\\.\\d{4}")) {
+				birthDate = format.parse(string);
+				continue;
+			}
+			if (surname == "") {
+				surname = string;
+				continue;
+			}
+			if (firstName == "") {
+				firstName = string;
+				continue;
+			}
+			if (patronymic == "") {
+				patronymic = string;
+				continue;
+			}
+		}
+		if (surname == "" || patronymic == "" || firstName == "" || birthDate == null || phone == 0
+				|| gender == 'c') {
+			throw new Exception("Вы скорее всего ввели повторяющиеся данные");
+		}
+		return new People(surname, firstName, patronymic, birthDate, phone, gender);
+
 	}
 
 	public StringBuilder list() throws Exception {
@@ -51,18 +111,23 @@ public class PeopleBookService {
 			return;
 		}
 		File[] files = folder.listFiles();
-		People p = parserData(people);
+		People p;
+		try {
+			p = parserData(people);
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
 		for (File file : files) {
-			if (file.getName() == p.getLastName()) {
-				try (FileWriter fw = new FileWriter(file)) {
-					fw.append(p.toString());
+			if (file.getName().equalsIgnoreCase(p.getSurname())) {
+				try (FileWriter fw = new FileWriter(file, true)) {
+					fw.append("\n\r" + p.toString());
 				} catch (Exception e) {
 					throw new Exception("Почему-то не удалось записать файл.....");
 				}
 				return;
 			}
 		}
-		File f = new File(folder.getPath() + p.getLastName());
+		File f = new File(folder.getPath() + "/" + p.getSurname() + ".txt");
 		try (FileWriter fw = new FileWriter(f)) {
 			fw.append(p.toString());
 		} catch (Exception e) {

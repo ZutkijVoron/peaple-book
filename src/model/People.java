@@ -1,39 +1,40 @@
 package src.model;
 
-import javax.xml.crypto.Data;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class People {
+	private String surname;
 	private String firstName;
-	private String lastName;
-	private String secondName;
-	private Data birthDate;
+	private String patronymic;
+	private Date birthDate;
 	private int phone;
 	private char gender;
 
-	public People(String firstName, String lastName, String secondName, Data birthDate, int phone, char gender) {
+	public People(String surname, String firstName, String patronymic, Date birthDate, int phone, char gender) {
 		super();
+		this.surname = surname;
 		this.firstName = firstName;
-		this.lastName = lastName;
-		this.secondName = secondName;
+		this.patronymic = patronymic;
 		this.birthDate = birthDate;
 		this.phone = phone;
 		this.gender = gender;
+	}
+
+	public String getSurname() {
+		return surname;
 	}
 
 	public String getFirstName() {
 		return firstName;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getPatronymic() {
+		return patronymic;
 	}
 
-	public String getSecondName() {
-		return secondName;
-	}
-
-	public Data getBirthDate() {
-		return birthDate;
+	public Date getBirthDate() {
+		return (Date) birthDate;
 	}
 
 	public int getPhone() {
@@ -46,7 +47,8 @@ public class People {
 
 	@Override
 	public String toString() {
-		return "{ firstName: " + firstName + ", lastName: " + lastName + ", secondName: " + secondName
-				+ ", birthDate: " + birthDate + ", phone: " + phone + ", gender: " + gender + " }";
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+		return "{ surname: " + surname + ", firstName: " + firstName + ", patronymic: " + patronymic
+				+ ", birthDate: " + dateFormat.format(birthDate) + ", phone: " + phone + ", gender: " + gender + " }";
 	}
 }
