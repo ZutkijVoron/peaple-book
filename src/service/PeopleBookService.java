@@ -108,7 +108,6 @@ public class PeopleBookService {
 		File folder = new File("data");
 		if (!folder.exists() || !folder.isDirectory()) {
 			folder.mkdir();
-			return;
 		}
 		File[] files = folder.listFiles();
 		People p;
